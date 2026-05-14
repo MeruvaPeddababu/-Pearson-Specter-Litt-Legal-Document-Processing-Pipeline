@@ -1,0 +1,166 @@
+{
+  "draft": {
+    "case_title": "Marcus A. Hendricks v. Nexigen Pharmaceuticals, Inc., et al.",
+    "case_number": "24-CV-08821",
+    "document_type": "complaint",
+    "jurisdiction": "Superior Court of the State of California, County of Los Angeles, Central District",
+    "parties": [
+      {
+        "name": "Marcus A. Hendricks",
+        "role": "Plaintiff",
+        "evidence_id": "case001__chunk_0"
+      },
+      {
+        "name": "Nexigen Pharmaceuticals, Inc.",
+        "role": "Defendant",
+        "evidence_id": "case001__chunk_0"
+      },
+      {
+        "name": "Raymond L. Porter",
+        "role": "Defendant (individually and as CEO)",
+        "evidence_id": "case001__chunk_0"
+      },
+      {
+        "name": "Does 1 through 20",
+        "role": "Defendants",
+        "evidence_id": "case001__chunk_0"
+      },
+      {
+        "name": "Diana R. Castellan / Castellan & Price LLP",
+        "role": "Counsel for Plaintiff",
+        "evidence_id": "case001__chunk_10"
+      }
+    ],
+    "key_facts": [
+      {
+        "fact": "Hendricks was employed as Senior Director of Business Development at Nexigen from approximately April 2019 through October 14, 2023. Note: the word 'Apri1' in the source document is flagged as a likely OCR artifact for 'April.'",
+        "evidence_id": "case001__chunk_2",
+        "evidence_quote": "\"Hendricks was employed as Senior Director of Business Development at Nexigen from Apri1 2019 through October 14, 2023 (note: 'Apri1' may be OCR artifact for 'April' original document had water damage on upper-left corner of page 2)\""
+      },
+      {
+        "fact": "Nexigen Pharmaceuticals, Inc. is a Delaware corporation with principal offices at 1200 Century Park East, Suite 1800, Los Angeles, California 90067, and develops and markets oncology and rare-disease therapeutics.",
+        "evidence_id": "case001__chunk_2",
+        "evidence_quote": "\"Defendant NEXIGEN PHARMACEUTICALS, INC. is a Delaware corporation duly authorized to do business in California, with principal offices at the address stated above. Nexigen develops and markets oncology and rare-disease therapeutics.\""
+      },
+      {
+        "fact": "The amount in controversy exceeds $25,000.",
+        "evidence_id": "case001__chunk_1",
+        "evidence_quote": "\"The amount in controversy exceeds TWENTY-FIVE THOUSAND DOLLARS ($25,000.00).\""
+      },
+      {
+        "fact": "Venue is proper in Los Angeles County because Nexigen maintains its principal place of business at 1200 Century Park East, Suite 1800, Los Angeles, California 90067.",
+        "evidence_id": "case001__chunk_1",
+        "evidence_quote": "\"Venue is proper in Los Angeles County pursuant to CCP 395(a) because Defendant Nexigen maintains its principal place of business at 1200 Century Park East, Suite 1800, Los Angeles, California 90067.\""
+      },
+      {
+        "fact": "Plaintiff's total claimed damages are not less than $2,704,125, comprising $210,000 in severance and $2,494,125 in RSU value.",
+        "evidence_id": "case001__chunk_9",
+        "evidence_quote": "\"Hendricks has suffered damages in an amount to be proven at trial, but not less than $2,704,125 (comprising $210,000 severance + $2,494,125 RSU value).\""
+      },
+      {
+        "fact": "Plaintiff demands a jury trial.",
+        "evidence_id": "case001__chunk_0",
+        "evidence_quote": "\"JURY TRIAL DEMANDED\""
+      },
+      {
+        "fact": "Plaintiff seeks compensatory damages of not less than $2,704,125, punitive damages, pre- and post-judgment interest, attorneys' fees and costs, and such other relief as the Court deems just and proper.",
+        "evidence_id": "case001__chunk_9",
+        "evidence_quote": "\"1. Compensatory damages of not less than $2,704,125; 2. Punitive damages in an amount to be determined at trial; 3. Pre- and post-judgment interest at the legal rate; 4. Attorneys' fees and costs pursuant to the Agreement and applicable law; 5. Such other and further relief as the Court deems just and proper.\""
+      },
+      {
+        "fact": "Exhibits A, B, and C are referenced in the complaint but were not attached to the reviewed copy.",
+        "evidence_id": "case001__chunk_10",
+        "evidence_quote": "\"[EXHIBIT A, B, C referenced but not attached to this copy]\""
+      },
+      {
+        "fact": "The complaint was signed by Diana R. Castellan on November 8, 2023, and filed with the Los Angeles Superior Court on November 9, 2023.",
+        "evidence_id": "case001__chunk_10",
+        "evidence_quote": "\"Dated: November 8, 2023 ... DIANA R. CASTELLAN, SBN 224419 ... [CLERK'S STAMP: FILED 11/09/2023 LOS ANGELES SUPERIOR COURT]\""
+      }
+    ],
+    "relevant_dates": [
+      {
+        "date": "2019-04 (approximate)",
+        "event": "Hendricks commenced employment as Senior Director of Business Development at Nexigen. Note: exact date not confirmed due to OCR artifact and water damage.",
+        "evidence_id": "case001__chunk_2"
+      },
+      {
+        "date": "2023-10-14",
+        "event": "Hendricks' employment at Nexigen terminated, per the complaint allegations.",
+        "evidence_id": "case001__chunk_2"
+      },
+      {
+        "date": "2023-11-08",
+        "event": "Complaint signed and dated by counsel Diana R. Castellan.",
+        "evidence_id": "case001__chunk_10"
+      },
+      {
+        "date": "2023-11-09",
+        "event": "Complaint filed with Los Angeles Superior Court per clerk's stamp.",
+        "evidence_id": "case001__chunk_10"
+      }
+    ],
+    "legal_issues": [
+      {
+        "issue": "Breach of Contract",
+        "evidence_id": "case001__chunk_0"
+      },
+      {
+        "issue": "Fraud and Deceit",
+        "evidence_id": "case001__chunk_0"
+      },
+      {
+        "issue": "Negligent Misrepresentation",
+        "evidence_id": "case001__chunk_0"
+      },
+      {
+        "issue": "Violation of California Business and Professions Code Section 17200 (Unfair Business Practices)",
+        "evidence_id": "case001__chunk_0"
+      }
+    ],
+    "missing_information": [
+      "Exhibits A, B, and C are referenced but not attached to the reviewed copy \u2014 these likely include the Employment Agreement and RSU grant documentation, which are critical to all contract-based claims.",
+      "The specific contractual terms regarding severance, RSU vesting acceleration, and notice period are not reproduced in the retrieved evidence passages and must be verified against Exhibit A.",
+      "Raymond L. Porter's residential address is not present in the retrieved passages (noted as redacted in pre-extracted fields); service of process documentation is therefore unverifiable.",
+      "The factual basis for the oral promotion promise (September 1, 2023) and Plaintiff's declination of competing offers (Roche Holdings AG and Amgen Inc.) are not supported by any retrieved evidence passage \u2014 corroborating documentation or witness statements are absent.",
+      "RSU valuation figure of $22.17 per share and total of $2,494,125 does not appear in the retrieved evidence passages; pre-extracted fields flag this as reconstructed text from a partially illegible page \u2014 independent verification against original document is required.",
+      "Plaintiff's performance review records ('Exceeds Expectations' / 'Outstanding' ratings) are referenced in pre-extracted fields but not supported by any retrieved evidence passage.",
+      "The identity and roles of Does 1 through 20 are not specified.",
+      "No responsive pleadings, answer, or proof of service are present in the reviewed material.",
+      "Case number prefix '24' is inconsistent with the November 2023 filing date \u2014 this discrepancy is unresolved in the retrieved passages.",
+      "No information regarding Nexigen's stated basis for termination (if any) is present in the retrieved evidence passages."
+    ],
+    "document_quality_notes": "Multiple document quality concerns are noted: (1) The word 'Apri1' on page 3 (case001__chunk_2) is flagged within the document itself as a likely OCR artifact for 'April,' with an accompanying note referencing water damage to the upper-left corner of page 2; (2) Page 3 is reported as partially illegible due to possible water damage \u2014 paragraph 11, containing the RSU valuation figures ($22.17 per share; $2,494,125 total), is identified in pre-extracted fields as reconstructed text and must be treated with caution pending verification against the original; (3) Raymond L. Porter's residential address is redacted; (4) Exhibits A, B, and C are referenced but not attached to the reviewed copy; (5) Case number '24-CV-08821' carries a '24' prefix that appears inconsistent with the November 2023 filing date \u2014 this requires clarification from the court clerk or case management system.",
+    "analyst_notes": "This summary is a first-pass review based on five retrieved evidence passages of moderate relevance scores (0.241\u20130.410); several material facts stated in the pre-extracted structured fields \u2014 including RSU valuation figures, performance review history, the oral promotion promise, and competing employment offers \u2014 are not directly supported by the retrieved passages and should be independently verified against the original complaint and all referenced exhibits before any litigation strategy is finalized."
+  },
+  "applied_patterns": [
+    "Wrap all evidence_quote field values in escaped double-quote characters so the quoted text is visually distinct from surrounding JSON string content."
+  ],
+  "evidence": [
+    {
+      "chunk_id": "case001__chunk_0",
+      "score": 0.4105,
+      "text": "SUPERIOR COURT OF THE STATE OF CALIFORNIA\nCOUNTY OF LOS ANGELES CENTRAL DISTRICT\n\nCase No.: 24-CV-08821\n\nMARCUS A. HENDRICKS, an individual, COMPLAINT FOR DAMAGES:\n Plaintiff, 1. BREACH OF CONTRACT\n 2. FRAUD & DECEIT\nvs. 3. NEGLIGENT MISREPRESENT-\n ATION\nNEXIGEN PHARMACEUTICALS, INC., a Delaware 4. "
+    },
+    {
+      "chunk_id": "case001__chunk_1",
+      "score": 0.4046,
+      "text": "DAMAGES Plaintiff MARCUS A. HENDRICKS (\"Plaintiff\" or \"Hendricks\") hereby alleges as follows against Defendants NEXIGEN PHARMACEUTICALS, INC. (\"Nexigen\"), RAYMOND L. PORTER (\"Porter\"), and DOES 1-20 (collectively \"Defendants\"): JURISDICTION AND VENUE\n\n1. This Court has jurisdiction over the subject "
+    },
+    {
+      "chunk_id": "case001__chunk_10",
+      "score": 0.3659,
+      "text": "deems just and proper. Dated: November 8, 2023 Respectfully submitted, CASTELLAN & PRICE LLP By: /s/ Diana R. Castellan DIANA R. CASTELLAN, SBN 224419 Attorneys for Plaintiff Marcus A. Hendricks\n\n[EXHIBIT A, B, C referenced but not attached to this copy]\n[CLERK'S STAMP: FILED 11/09/2023 LOS ANGELES "
+    },
+    {
+      "chunk_id": "case001__chunk_9",
+      "score": 0.3164,
+      "text": "and proximate result of Defendants' breach, Hendricks has suffered damages in an amount to be proven at trial, but not less than $2,704,125 (comprising $210,000 severance + $2,494,125 RSU value).\n\nPRAYER FOR RELIEF\n\nWHEREFORE, Plaintiff prays for judgment against Defendants as follows:\n\n1. Compensat"
+    },
+    {
+      "chunk_id": "case001__chunk_2",
+      "score": 0.2407,
+      "text": "in Los Angeles County pursuant to CCP 395(a) because Defendant Nexigen maintains its principal place of business at 1200 Century Park East, Suite 1800, Los Angeles, California 90067. THE PARTIES\n\n3. Plaintiff Marcus A. Hendricks is a resident of Los Angeles County,\nCalifornia. At all times relevant,"
+    }
+  ]
+}
