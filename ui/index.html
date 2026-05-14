@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pearson Specter Litt — Legal Document Pipeline</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #b8972e;
+    --dark: #111318;
+    --panel: #1a1d24;
+    --border: #2a2d36;
+    --text: #dde1ea;
+    --muted: #7a7f8e;
+    --green: #2ecc71;
+    --red: #e74c3c;
+    --blue: #3498db;
+  }
+  body { background: var(--dark); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; min-height: 100vh; }
+
+  header { background: var(--panel); border-bottom: 2px solid var(--gold); padding: 16px 32px; display: flex; align-items: center; gap: 14px; }
+  header h1 { font-size: 18px; font-weight: 600; letter-spacing: 0.5px; }
+  header span { color: var(--gold); font-size: 12px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; }
+
+  .layout { display: grid; grid-template-columns: 340px 1fr; gap: 0; min-height: calc(100vh - 57px); }
+  .sidebar { background: var(--panel); border-right: 1px solid var(--border); padding: 24px 20px; display: flex; flex-direction: column; gap: 20px; }
+  .main { padding: 24px 28px; display: flex; flex-direction: column; gap: 20px; overflow-y: auto; }
+
+  .card { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .card-header { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+  .card-header h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.3px; text-transform: uppercase; color: var(--gold); }
+  .card-header .badge { margin-left: auto; background: var(--border); border-radius: 10px; padding: 2px 8px; font-size: 11px; color: var(--muted); }
+  .card-body { padding: 16px; }
+
+  label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px; font-weight: 500; }
+  input[type=text], textarea { width: 100%; background: var(--dark); border: 1px solid var(--border); border-radius: 6px; padding: 9px 12px; color: var(--text); font-size: 13px; outline: none; transition: border-color .2s; }
+  input[type=text]:focus, textarea:focus { border-color: var(--gold); }
+  textarea { resize: vertical; font-family: 'Courier New', monospace; font-size: 12px; }
+
+  .drop-zone { border: 2px dashed var(--border); border-radius: 8px; padding: 32px 16px; text-align: center; cursor: pointer; transition: border-color .2s, background .2s; }
+  .drop-zone:hover, .drop-zone.drag { border-color: var(--gold); background: rgba(184,151,46,.06); }
+  .drop-zone p { color: var(--muted); font-size: 13px; margin-top: 8px; }
+  .drop-zone .icon { font-size: 28px; }
+  .drop-zone input { display: none; }
+  .file-name { margin-top: 8px; font-size: 12px; color: var(--gold); word-break: break-all; }
+
+  button { background: var(--gold); color: #000; border: none; border-radius: 6px; padding: 9px 18px; font-size: 13px; font-weight: 600; cursor: pointer; transition: opacity .2s; width: 100%; margin-top: 12px; }
+  button:hover { opacity: .85; }
+  button:disabled { opacity: .4; cursor: not-allowed; }
+  button.secondary { background: var(--border); color: var(--text); }
+  button.secondary:hover { background: #33374a; }
+  button.danger { background: var(--red); color: #fff; }
+
+  .spinner { display: none; text-align: center; padding: 20px; color: var(--muted); font-size: 13px; }
+  .spinner.active { display: block; }
+
+  .status { padding: 8px 12px; border-radius: 6px; font-size: 12px; margin-top: 10px; display: none; }
+  .status.ok { background: rgba(46,204,113,.12); border: 1px solid rgba(46,204,113,.3); color: var(--green); display: block; }
+  .status.err { background: rgba(231,76,60,.12); border: 1px solid rgba(231,76,60,.3); color: var(--red); display: block; }
+
+  .kv-grid { display: grid; grid-template-columns: 120px 1fr; gap: 8px 12px; align-items: start; }
+  .kv-key { color: var(--muted); font-size: 12px; font-weight: 500; padding-top: 2px; }
+  .kv-val { color: var(--text); font-size: 12px; word-break: break-all; }
+
+  .tag { display: inline-block; background: rgba(184,151,46,.15); color: var(--gold); border: 1px solid rgba(184,151,46,.3); border-radius: 4px; padding: 2px 8px; font-size: 11px; margin: 2px; }
+  .tag.blue { background: rgba(52,152,219,.15); color: var(--blue); border-color: rgba(52,152,219,.3); }
+  .tag.green { background: rgba(46,204,113,.12); color: var(--green); border-color: rgba(46,204,113,.3); }
+
+  .evidence-chunk { background: var(--dark); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; margin-bottom: 8px; }
+  .evidence-chunk .chunk-id { font-size: 11px; color: var(--gold); font-family: monospace; margin-bottom: 4px; }
+  .evidence-chunk .chunk-score { font-size: 11px; color: var(--muted); float: right; }
+  .evidence-chunk .chunk-text { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  .fact-item { border-left: 3px solid var(--gold); padding: 8px 12px; margin-bottom: 8px; background: var(--dark); border-radius: 0 6px 6px 0; }
+  .fact-item .fact-text { font-size: 13px; margin-bottom: 4px; }
+  .fact-item .fact-meta { font-size: 11px; color: var(--muted); font-family: monospace; }
+  .fact-item .fact-quote { font-size: 11px; color: #6a9fd8; font-style: italic; margin-top: 4px; }
+
+  .pattern-item { border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; margin-bottom: 8px; }
+  .pattern-item .pattern-desc { font-size: 12px; font-weight: 600; color: var(--gold); margin-bottom: 4px; }
+  .pattern-item .pattern-rule { font-size: 12px; color: var(--text); margin-bottom: 6px; line-height: 1.4; }
+  .pattern-item .pattern-ex { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 6px; }
+  .pattern-item .ex-before, .pattern-item .ex-after { background: var(--dark); border-radius: 4px; padding: 6px 8px; font-size: 11px; font-family: monospace; color: var(--muted); }
+  .pattern-item .ex-after { color: var(--green); }
+  .pattern-item .ex-label { font-size: 10px; color: var(--muted); margin-bottom: 2px; }
+  .badge-count { background: var(--gold); color: #000; border-radius: 10px; padding: 1px 7px; font-size: 11px; font-weight: 700; margin-left: 6px; }
+
+  .missing-item { padding: 6px 10px; margin-bottom: 4px; background: rgba(231,76,60,.07); border-left: 3px solid var(--red); border-radius: 0 4px 4px 0; font-size: 12px; color: #c0c4cc; }
+
+  .tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+  .tab { padding: 8px 16px; font-size: 12px; font-weight: 500; cursor: pointer; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color .2s; }
+  .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  pre { background: var(--dark); border: 1px solid var(--border); border-radius: 6px; padding: 12px; font-size: 11px; overflow-x: auto; white-space: pre-wrap; word-break: break-all; color: #abb2bf; max-height: 400px; overflow-y: auto; }
+
+  .empty { color: var(--muted); font-size: 13px; text-align: center; padding: 24px; }
+
+  .progress-steps { display: flex; gap: 0; margin-bottom: 20px; }
+  .step { flex: 1; text-align: center; padding: 8px; font-size: 11px; color: var(--muted); border-bottom: 2px solid var(--border); transition: all .3s; }
+  .step.done { color: var(--green); border-bottom-color: var(--green); }
+  .step.active { color: var(--gold); border-bottom-color: var(--gold); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<header>
+  <span>⚖</span>
+  <h1>Pearson Specter Litt</h1>
+  <span>Legal Document Pipeline</span>
+</header>
+
+<div class="layout">
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="card">
+      <div class="card-header"><h2>Upload Document</h2></div>
+      <div class="card-body">
+        <div class="drop-zone" id="dropZone">
+          <div class="icon">📄</div>
+          <p>Drop file here or click to browse</p>
+          <p style="font-size:11px;margin-top:4px;">PDF · DOCX · PPTX · TXT · PNG · JPG</p>
+          <div class="file-name" id="fileName"></div>
+          <input type="file" id="fileInput" accept=".pdf,.txt,.docx,.pptx,.ppt,.png,.jpg,.jpeg,.tiff,.bmp" />
+        </div>
+        <div style="margin-top:12px;">
+          <label>Doc ID (optional)</label>
+          <input type="text" id="docIdInput" placeholder="e.g. case001" />
+        </div>
+        <button id="uploadBtn" disabled>Process Document</button>
+        <div class="status" id="uploadStatus"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2>Learned Patterns</h2>
+        <span class="badge-count" id="patternCount">0</span>
+      </div>
+      <div class="card-body" id="patternsList">
+        <div class="empty">No patterns yet.<br/>Submit an edit to learn.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="progress-steps">
+      <div class="step" id="step1">1 · Process</div>
+      <div class="step" id="step2">2 · Retrieve</div>
+      <div class="step" id="step3">3 · Draft</div>
+      <div class="step" id="step4">4 · Edit &amp; Learn</div>
+    </div>
+
+    <!-- Processing Results -->
+    <div class="card" id="processingCard" style="display:none">
+      <div class="card-header"><h2>Document Processing</h2><span class="badge" id="methodBadge"></span></div>
+      <div class="card-body">
+        <div class="tabs">
+          <div class="tab active" onclick="switchTab('proc','fields',this)">Structured Fields</div>
+          <div class="tab" onclick="switchTab('proc','notes',this)">Processing Notes</div>
+          <div class="tab" onclick="switchTab('proc','raw',this)">Raw JSON</div>
+        </div>
+        <div class="tab-panel active" id="proc-fields"></div>
+        <div class="tab-panel" id="proc-notes"></div>
+        <div class="tab-panel" id="proc-raw"></div>
+        <button id="draftBtn" style="margin-top:16px;">Generate Grounded Draft</button>
+        <div class="spinner" id="draftSpinner">Retrieving evidence &amp; generating draft…</div>
+      </div>
+    </div>
+
+    <!-- Draft Output -->
+    <div class="card" id="draftCard" style="display:none">
+      <div class="card-header"><h2>Case Fact Summary</h2><span class="badge" id="draftBadge"></span></div>
+      <div class="card-body">
+        <div class="tabs">
+          <div class="tab active" onclick="switchTab('draft','facts',this)">Key Facts</div>
+          <div class="tab" onclick="switchTab('draft','parties',this)">Parties</div>
+          <div class="tab" onclick="switchTab('draft','dates',this)">Dates &amp; Issues</div>
+          <div class="tab" onclick="switchTab('draft','evidence',this)">Evidence Used</div>
+          <div class="tab" onclick="switchTab('draft','missing',this)">Gaps</div>
+          <div class="tab" onclick="switchTab('draft','raw',this)">Raw JSON</div>
+        </div>
+        <div class="tab-panel active" id="draft-facts"></div>
+        <div class="tab-panel" id="draft-parties"></div>
+        <div class="tab-panel" id="draft-dates"></div>
+        <div class="tab-panel" id="draft-evidence"></div>
+        <div class="tab-panel" id="draft-missing"></div>
+        <div class="tab-panel" id="draft-raw"></div>
+      </div>
+    </div>
+
+    <!-- Edit Submission -->
+    <div class="card" id="editCard" style="display:none">
+      <div class="card-header"><h2>Submit Operator Edit</h2></div>
+      <div class="card-body">
+        <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Edit the draft JSON below, then submit. Claude will extract reusable style patterns from your changes and apply them to all future drafts.</p>
+        <label>Edited Draft (modify and submit)</label>
+        <textarea id="editTextarea" rows="14"></textarea>
+        <button id="submitEditBtn">Submit Edit &amp; Learn Patterns</button>
+        <div class="status" id="editStatus"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = '';
+let currentDocId = null;
+let currentDraft = null;
+
+// ── Drop zone ──────────────────────────────────────────────────────────────
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+const uploadBtn = document.getElementById('uploadBtn');
+
+dropZone.addEventListener('click', () => fileInput.click());
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault(); dropZone.classList.remove('drag');
+  if (e.dataTransfer.files[0]) setFile(e.dataTransfer.files[0]);
+});
+fileInput.addEventListener('change', () => { if (fileInput.files[0]) setFile(fileInput.files[0]); });
+
+function setFile(f) {
+  document.getElementById('fileName').textContent = f.name;
+  uploadBtn.disabled = false;
+  uploadBtn._file = f;
+}
+
+// ── Upload ─────────────────────────────────────────────────────────────────
+uploadBtn.addEventListener('click', async () => {
+  const file = uploadBtn._file;
+  if (!file) return;
+  const docId = document.getElementById('docIdInput').value.trim() || undefined;
+
+  uploadBtn.disabled = true;
+  uploadBtn.textContent = 'Processing…';
+  setStatus('uploadStatus', '', '');
+
+  const fd = new FormData();
+  fd.append('file', file);
+  if (docId) fd.append('doc_id', docId);
+
+  try {
+    const res = await fetch(`${API}/documents/upload`, { method: 'POST', body: fd });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || res.statusText);
+
+    currentDocId = data.doc_id;
+    setStatus('uploadStatus', `Processed: ${data.doc_id} · ${data.chunk_count} chunks`, 'ok');
+    renderProcessing(data);
+    setStep(1);
+    loadPatterns();
+  } catch(e) {
+    setStatus('uploadStatus', e.message, 'err');
+  } finally {
+    uploadBtn.disabled = false;
+    uploadBtn.textContent = 'Process Document';
+  }
+});
+
+function renderProcessing(data) {
+  document.getElementById('processingCard').style.display = '';
+  document.getElementById('methodBadge').textContent = data.extraction_method;
+
+  // Structured fields
+  const sf = data.structured_fields || {};
+  const fieldsEl = document.getElementById('proc-fields');
+  fieldsEl.innerHTML = '';
+  const grid = document.createElement('div');
+  grid.className = 'kv-grid';
+
+  const rows = [
+    ['Document Type', sf.document_type],
+    ['Case Title', sf.case_title],
+    ['Case Number', sf.case_number],
+    ['Jurisdiction', sf.jurisdiction],
+    ['Filing Status', sf.filing_status],
+    ['Parties', (sf.parties || []).map(p => `${p.name} (${p.role})`).join(', ')],
+    ['Legal Issues', (sf.legal_issues || []).join('; ')],
+    ['Statutes', (sf.referenced_statutes || []).join(', ')],
+    ['Document Quality', sf.document_quality],
+  ];
+  for (const [k,v] of rows) {
+    if (!v) continue;
+    const key = document.createElement('div'); key.className = 'kv-key'; key.textContent = k;
+    const val = document.createElement('div'); val.className = 'kv-val'; val.textContent = v;
+    grid.appendChild(key); grid.appendChild(val);
+  }
+  if ((sf.key_facts||[]).length) {
+    const key = document.createElement('div'); key.className = 'kv-key'; key.textContent = 'Key Facts';
+    const val = document.createElement('div'); val.className = 'kv-val';
+    val.innerHTML = (sf.key_facts||[]).map(f => `<div class="tag">${f}</div>`).join('');
+    grid.appendChild(key); grid.appendChild(val);
+  }
+  fieldsEl.appendChild(grid);
+
+  // Notes
+  const notesEl = document.getElementById('proc-notes');
+  notesEl.innerHTML = (data.processing_notes || []).map(n =>
+    `<div style="padding:6px 10px;margin-bottom:4px;border-left:3px solid var(--gold);font-size:12px;color:var(--muted);">${n}</div>`
+  ).join('') || '<div class="empty">No notes.</div>';
+
+  // Raw
+  document.getElementById('proc-raw').innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+}
+
+// ── Draft ──────────────────────────────────────────────────────────────────
+document.getElementById('draftBtn').addEventListener('click', async () => {
+  if (!currentDocId) return;
+  document.getElementById('draftSpinner').classList.add('active');
+  document.getElementById('draftBtn').disabled = true;
+  setStep(2);
+
+  try {
+    const res = await fetch(`${API}/documents/${currentDocId}/draft`);
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || res.statusText);
+
+    currentDraft = data;
+    renderDraft(data);
+    setStep(3);
+    loadPatterns();
+  } catch(e) {
+    alert('Draft error: ' + e.message);
+  } finally {
+    document.getElementById('draftSpinner').classList.remove('active');
+    document.getElementById('draftBtn').disabled = false;
+  }
+});
+
+function renderDraft(data) {
+  document.getElementById('draftCard').style.display = '';
+  document.getElementById('editCard').style.display = '';
+  const c = data.content || {};
+  const pat = data.applied_patterns || [];
+  document.getElementById('draftBadge').textContent = pat.length ? `${pat.length} pattern(s) applied` : 'no patterns yet';
+
+  // Key facts
+  const factsEl = document.getElementById('draft-facts');
+  factsEl.innerHTML = (c.key_facts || []).map(f => `
+    <div class="fact-item">
+      <div class="fact-text">${f.fact}</div>
+      <div class="fact-meta">evidence: ${f.evidence_id}</div>
+      ${f.evidence_quote ? `<div class="fact-quote">${f.evidence_quote}</div>` : ''}
+    </div>`).join('') || '<div class="empty">No key facts.</div>';
+
+  // Parties
+  const partiesEl = document.getElementById('draft-parties');
+  partiesEl.innerHTML = '<div class="kv-grid">' + (c.parties || []).map(p => `
+    <div class="kv-key">${p.role}</div>
+    <div class="kv-val">${p.name} <span class="tag">${p.evidence_id}</span></div>
+  `).join('') + '</div>';
+
+  // Dates & issues
+  const datesEl = document.getElementById('draft-dates');
+  let dhtml = '<div style="margin-bottom:12px;"><div class="kv-grid">' +
+    (c.relevant_dates || []).map(d => `
+      <div class="kv-key">${d.date}</div>
+      <div class="kv-val">${d.event} <span class="tag">${d.evidence_id}</span></div>
+    `).join('') + '</div></div>';
+  dhtml += '<div style="margin-top:12px;font-size:12px;font-weight:600;color:var(--gold);margin-bottom:8px;">Legal Issues</div>';
+  dhtml += (c.legal_issues || []).map(i =>
+    `<div class="fact-item"><div class="fact-text">${i.issue}</div><div class="fact-meta">${i.evidence_id}</div></div>`
+  ).join('');
+  datesEl.innerHTML = dhtml;
+
+  // Evidence
+  const evEl = document.getElementById('draft-evidence');
+  evEl.innerHTML = (data.evidence_used || []).map(e => `
+    <div class="evidence-chunk">
+      <div class="chunk-id">${e.chunk_id} <span class="chunk-score">score: ${e.score}</span></div>
+      <div class="chunk-text">${e.text_preview}</div>
+    </div>`).join('') || '<div class="empty">No evidence chunks.</div>';
+
+  // Missing
+  const missEl = document.getElementById('draft-missing');
+  missEl.innerHTML = (c.missing_information || []).map(m =>
+    `<div class="missing-item">${m}</div>`
+  ).join('') || '<div class="empty">No gaps identified.</div>';
+  if (c.analyst_notes) {
+    missEl.innerHTML += `<div style="margin-top:12px;padding:10px 12px;background:var(--dark);border-radius:6px;font-size:12px;color:var(--muted);border-left:3px solid var(--blue);">${c.analyst_notes}</div>`;
+  }
+
+  // Raw
+  document.getElementById('draft-raw').innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+
+  // Populate edit textarea
+  document.getElementById('editTextarea').value = JSON.stringify(c, null, 2);
+}
+
+// ── Edit ───────────────────────────────────────────────────────────────────
+document.getElementById('submitEditBtn').addEventListener('click', async () => {
+  if (!currentDocId || !currentDraft) return;
+  const editedText = document.getElementById('editTextarea').value;
+  let edited;
+  try { edited = JSON.parse(editedText); } catch(e) { setStatus('editStatus', 'Invalid JSON: ' + e.message, 'err'); return; }
+
+  document.getElementById('submitEditBtn').disabled = true;
+  document.getElementById('submitEditBtn').textContent = 'Submitting…';
+  setStatus('editStatus', '', '');
+
+  try {
+    const res = await fetch(`${API}/edits`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ doc_id: currentDocId, original_draft: currentDraft.content, edited_draft: edited }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || res.statusText);
+
+    setStatus('editStatus', `Edit saved (${data.edit_id}). ${data.total_active_patterns} active pattern(s) now.`, 'ok');
+    setStep(4);
+    loadPatterns();
+  } catch(e) {
+    setStatus('editStatus', e.message, 'err');
+  } finally {
+    document.getElementById('submitEditBtn').disabled = false;
+    document.getElementById('submitEditBtn').textContent = 'Submit Edit & Learn Patterns';
+  }
+});
+
+// ── Patterns ───────────────────────────────────────────────────────────────
+async function loadPatterns() {
+  try {
+    const res = await fetch(`${API}/patterns`);
+    const patterns = await res.json();
+    document.getElementById('patternCount').textContent = patterns.length;
+    const el = document.getElementById('patternsList');
+    if (!patterns.length) { el.innerHTML = '<div class="empty">No patterns yet.<br/>Submit an edit to learn.</div>'; return; }
+    el.innerHTML = patterns.map(p => `
+      <div class="pattern-item">
+        <div class="pattern-desc">${p.description} <span class="badge-count">×${p.times_observed}</span></div>
+        <div class="pattern-rule">${p.rule}</div>
+        <div class="pattern-ex">
+          <div><div class="ex-label">Before</div><div class="ex-before">${p.example_before || '—'}</div></div>
+          <div><div class="ex-label">After</div><div class="ex-after">${p.example_after || '—'}</div></div>
+        </div>
+      </div>`).join('');
+  } catch(e) {}
+}
+
+// ── Helpers ────────────────────────────────────────────────────────────────
+function setStatus(id, msg, type) {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.className = 'status' + (type ? ' ' + type : '');
+}
+
+function switchTab(group, tab, el) {
+  document.querySelectorAll(`[id^="${group}-"]`).forEach(p => p.classList.remove('active'));
+  document.querySelectorAll(`#${group}-${tab}`).forEach(p => p.classList.add('active'));
+  el.closest('.card-body').querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById(`${group}-${tab}`).classList.add('active');
+}
+
+function setStep(n) {
+  for (let i = 1; i <= 4; i++) {
+    const el = document.getElementById(`step${i}`);
+    el.className = 'step' + (i < n ? ' done' : i === n ? ' active' : '');
+  }
+}
+
+loadPatterns();
+</script>
+</body>
+</html>
