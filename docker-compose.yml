@@ -1,0 +1,14 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    volumes:
+      - chroma_data:/app/chroma_db
+      - ./sample_outputs:/app/sample_outputs
+    restart: unless-stopped
+
+volumes:
+  chroma_data:
