@@ -1,0 +1,92 @@
+{
+  "edit_id": "a3f9c12e8b04",
+  "doc_id": "case001",
+  "timestamp": "2026-05-14T10:31:47.882104+00:00",
+  "operator_edits_applied": [
+    "Added firm-standard case_reference header field",
+    "Normalised dates to ISO format (YYYY-MM-DD)",
+    "Wrapped evidence_quote values in typographic quotation marks",
+    "Trimmed speculative analyst_notes to first sentence only",
+    "Promoted jurisdiction to top-level filing_jurisdiction field"
+  ],
+  "patterns_extracted": [
+    {
+      "description": "Add case reference header",
+      "rule": "Always include a top-level 'case_reference' field combining case_title, case_number, and jurisdiction in the format: '<title> | No. <number> | <jurisdiction>'",
+      "example_before": "No top-level reference field; case_title, case_number, and jurisdiction appear only as separate fields",
+      "example_after": "\"case_reference\": \"Marcus A. Hendricks v. Nexigen | No. 24-CV-08821 | Superior Court CA\"",
+      "confidence": 0.95
+    },
+    {
+      "description": "ISO-format all dates",
+      "rule": "Normalise all date values in relevant_dates to ISO 8601 format (YYYY-MM-DD); replace slash-separated or free-text dates with the ISO equivalent",
+      "example_before": "\"date\": \"11/08/2023\"",
+      "example_after": "\"date\": \"2023-11-08\"",
+      "confidence": 0.98
+    },
+    {
+      "description": "Quote-wrap evidence citations",
+      "rule": "Wrap all evidence_quote field values in escaped double-quote characters so the quoted text is visually distinct from surrounding JSON string content",
+      "example_before": "\"evidence_quote\": \"Hendricks was employed as Senior Director...\"",
+      "example_after": "\"evidence_quote\": \"\\\"Hendricks was employed as Senior Director...\\\"\"",
+      "confidence": 0.97
+    },
+    {
+      "description": "Trim speculative analyst notes",
+      "rule": "Limit analyst_notes to a single declarative sentence; remove qualifying clauses and hedges beyond the first period to keep the note actionable",
+      "example_before": "\"analyst_notes\": \"This summary is a first-pass analysis ... and should be verified against the original complaint and unattached exhibits before any reliance for litigation purposes.\"",
+      "example_after": "\"analyst_notes\": \"This summary is a first-pass analysis based solely on five retrieved evidence passages.\"",
+      "confidence": 0.88
+    },
+    {
+      "description": "Promote jurisdiction field",
+      "rule": "Always include a top-level 'filing_jurisdiction' field that duplicates the jurisdiction value for quick visual scanning without requiring lookup inside nested fields",
+      "example_before": "jurisdiction appears only inside the draft body as \"jurisdiction\": \"Superior Court of California...\"",
+      "example_after": "\"filing_jurisdiction\": \"Superior Court of the State of California, County of Los Angeles, Central District\"",
+      "confidence": 0.91
+    }
+  ],
+  "total_active_patterns": 5,
+  "active_patterns": [
+    {
+      "pattern_id": "b1e2f3a4c5d6",
+      "description": "Add case reference header",
+      "rule": "Always include a top-level 'case_reference' field combining case_title, case_number, and jurisdiction in the format: '<title> | No. <number> | <jurisdiction>'",
+      "example_before": "No top-level reference field; case_title, case_number, and jurisdiction appear only as separate fields",
+      "example_after": "\"case_reference\": \"Marcus A. Hendricks v. Nexigen | No. 24-CV-08821 | Superior Court CA\"",
+      "times_observed": 1
+    },
+    {
+      "pattern_id": "c2d3e4f5a6b7",
+      "description": "ISO-format all dates",
+      "rule": "Normalise all date values in relevant_dates to ISO 8601 format (YYYY-MM-DD); replace slash-separated or free-text dates with the ISO equivalent",
+      "example_before": "\"date\": \"11/08/2023\"",
+      "example_after": "\"date\": \"2023-11-08\"",
+      "times_observed": 1
+    },
+    {
+      "pattern_id": "d3e4f5a6b7c8",
+      "description": "Quote-wrap evidence citations",
+      "rule": "Wrap all evidence_quote field values in escaped double-quote characters so the quoted text is visually distinct from surrounding JSON string content",
+      "example_before": "\"evidence_quote\": \"Hendricks was employed as Senior Director...\"",
+      "example_after": "\"evidence_quote\": \"\\\"Hendricks was employed as Senior Director...\\\"\"",
+      "times_observed": 1
+    },
+    {
+      "pattern_id": "e4f5a6b7c8d9",
+      "description": "Trim speculative analyst notes",
+      "rule": "Limit analyst_notes to a single declarative sentence; remove qualifying clauses and hedges beyond the first period to keep the note actionable",
+      "example_before": "\"analyst_notes\": \"This summary is a first-pass analysis ... and should be verified against the original complaint and unattached exhibits before any reliance for litigation purposes.\"",
+      "example_after": "\"analyst_notes\": \"This summary is a first-pass analysis based solely on five retrieved evidence passages.\"",
+      "times_observed": 1
+    },
+    {
+      "pattern_id": "f5a6b7c8d9e0",
+      "description": "Promote jurisdiction field",
+      "rule": "Always include a top-level 'filing_jurisdiction' field that duplicates the jurisdiction value for quick visual scanning without requiring lookup inside nested fields",
+      "example_before": "jurisdiction appears only inside the draft body as \"jurisdiction\": \"Superior Court of California...\"",
+      "example_after": "\"filing_jurisdiction\": \"Superior Court of the State of California, County of Los Angeles, Central District\"",
+      "times_observed": 1
+    }
+  ]
+}
